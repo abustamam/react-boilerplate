@@ -1,0 +1,1 @@
+This is the boilerplate from which I will create basic React projects.
