@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import App from './components/app'
 import { AppContainer } from 'react-hot-loader'
+
+require('./stylesheets/main.sass')
 
 ReactDOM.render(<AppContainer component={App} />, document.getElementById('root'))
 
 if (module.hot) {
-	module.hot.accept('./App', () => {
-		ReactDOM.render(<AppContainer component={require('./App').default} />, document.getElementById('root'))
+	module.hot.accept('./components/app', () => {
+		ReactDOM.render(<AppContainer component={require('./components/app').default} />, document.getElementById('root'))
 	})
 }
