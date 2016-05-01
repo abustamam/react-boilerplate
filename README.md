@@ -4,6 +4,13 @@ Free Code Campers, but of course anyone is free to use it.
 Originally forked from Dan Abramov's [React Hot Boilerplate](https://github.com/gaearon/react-hot-boilerplate)
 but used some instructions from the book [SurviveJS](http://survivejs.com) to get it to deploy properly.
 
+## Features
+
+- Hot reloading
+- Github pages deployment
+- Sass
+- Lean 
+
 ## Instructions for use
 
 - Install dependencies:
