@@ -1,14 +1,15 @@
-var path = require('path')
-var webpack = require('webpack')
-var merge = require('webpack-merge')
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const NpmInstallPlugin = require('npm-install-webpack-plugin')
 
-var TARGET = process.env.npm_lifecyle_event
-var PATHS = {
+const TARGET = process.env.npm_lifecyle_event
+const PATHS = {
   src: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'build')
 }
 
-var common = {
+const common = {
   devtool: 'eval',
   entry: [
     'webpack-dev-server/client?http://0.0.0.0:3000',
@@ -20,9 +21,6 @@ var common = {
     path: PATHS.build,
     filename: 'bundle.js',
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -55,7 +53,10 @@ if (TARGET === 'start' || !TARGET) {
       stats: 'errors-only',
       host: process.env.HOST,
       port: process.env.PORT
-    }
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin()
+    ],
   })
 }
 
