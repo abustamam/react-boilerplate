@@ -17,7 +17,7 @@ const common = {
 	},
 	output: {
 		path: PATHS.build,
-		filename: 'bundle.js'
+		filename: '[name].js'
 	}, 
 	plugins: [
 		new FaviconsWebpackPlugin('./public/webpack.png'),
@@ -33,7 +33,11 @@ switch(process.env.npm_lifecycle_event) {
 	case 'build': 
 		console.log("BUILD")
 		config = merge(
-			common, 
+			common,
+			{
+				devtool: 'source-map'
+			},
+			parts.minify(),
 			parts.setupCSS(PATHS.app)
 		)
 		break
@@ -41,6 +45,9 @@ switch(process.env.npm_lifecycle_event) {
 		console.log("DEFAULT")
 		config = merge(
 			common, 
+			{
+				devtool: 'eval-source-map'
+			},
 			parts.devServer({
 				host: process.env.HOST,
 				port: process.env.PORT
