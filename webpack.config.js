@@ -36,7 +36,7 @@ const common = merge(
     faviconPath: PATHS.images,
     favicon: 'webpack.png'
   }),
-  parts.postCSS(PATHS.app),
+  // parts.postCSS(PATHS.app),
   parts.loadJSX(PATHS.app),
   parts.lintJSX(PATHS.app),
   parts.images(PATHS.images),

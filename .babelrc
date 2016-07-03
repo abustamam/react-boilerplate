@@ -1,11 +1,14 @@
 {
-	"plugins": ["remove-console", "react-hot-loader/babel"],
+	"plugins": ["transform-remove-console"],
 	"presets": ["es2015", "stage-0", "react"],
 	"env": {
 		"start": {
 			"presets": [
 				"react-hmre"
 			]
+		},
+		"development": {
+			"plugins": ["react-hot-loader/babel"]
 		}
 	}
 }

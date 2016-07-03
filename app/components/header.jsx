@@ -13,7 +13,7 @@ class Header extends React.Component {
         </a>
       </div>
       <div className="title">
-        Happy Campers
+        Webpack Demo
       </div>
       <div style={{ width: 280 }}></div>
     </header>)
