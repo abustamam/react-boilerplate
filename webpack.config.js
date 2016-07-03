@@ -8,6 +8,9 @@ const pkg = require('./package.json')
 
 const parts = require('./libs/parts')
 
+const TARGET = process.env.npm_lifecycle_event
+process.env.BABEL_ENV = TARGET
+
 const PATHS = {
   app: path.join(__dirname, 'app'),
   style: path.join(__dirname, 'app', 'stylesheets', 'main.sass'),
@@ -31,6 +34,9 @@ const common = {
       title: 'Webpack Demo'
     })
   ],
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     preLoaders: [
       {
@@ -43,9 +49,20 @@ const common = {
         loaders: ['eslint'],
         include: PATHS.app
       }
+    ],
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel?cacheDirectory'],
+        include: PATHS.app
+      },
+      {
+        test: require.resolve('react'),
+        loader: 'expose?React'
+      }
     ]
   },
-  postcss: function() {
+  postcss: function () {
     return [
       stylelint({
         plugins: [
@@ -62,7 +79,7 @@ const common = {
 let config
 let opts = {}
 
-switch (process.env.npm_lifecycle_event) {
+switch (TARGET) {
 case 'stats':
   opts.quiet = true
 case 'build':
