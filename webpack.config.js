@@ -9,11 +9,13 @@ const parts = require('./libs/parts')
 
 const PATHS = {
 	app: path.join(__dirname, 'app'),
+	style: path.join(__dirname, 'app', 'main.sass'),
 	build: path.join(__dirname, 'build')
 }
 
 const common = {
 	entry: {
+		style: PATHS.style,
 		app: PATHS.app
 	},
 	output: {
@@ -43,6 +45,7 @@ switch(process.env.npm_lifecycle_event) {
 					chunkFilename: '[chunkhash].js'
 				}
 			},
+			parts.clean(PATHS.build),
 			parts.setFreeVariable(
 				'process.env.NODE_ENV',
 				'production'
@@ -52,7 +55,8 @@ switch(process.env.npm_lifecycle_event) {
 				entries: Object.keys(pkg.dependencies)
 			}),
 			parts.minify(),
-			parts.setupCSS(PATHS.app)
+			parts.extractCSS(PATHS.style),
+			parts.purifyCSS([PATHS.app])
 		)
 		break
 	default:
@@ -66,7 +70,7 @@ switch(process.env.npm_lifecycle_event) {
 				host: process.env.HOST,
 				port: process.env.PORT
 			}),
-			parts.setupCSS(PATHS.app)
+			parts.setupCSS(PATHS.style)
 		)
 }
 
