@@ -1,0 +1,50 @@
+html {
+  box-sizing: border-box;
+}
+
+body {
+  background: cornsilk;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: darkgreen;
+  color: #eeeeee;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+header .logo {
+  margin: 0 0 0 15px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+header .logo a {
+  padding: 5px;
+  height: calc(100% - 10px);
+}
+
+header .logo a img {
+  height: 40px;
+}
+
+.main {
+  width: 100%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+/*# sourceMappingURL=style.c37210a13315da7046d3.css.map*/
