@@ -32,14 +32,21 @@ let config
 switch(process.env.npm_lifecycle_event) {
 	case 'build': 
 		console.log("BUILD")
-		config = merge(common, {})
+		config = merge(
+			common, 
+			parts.setupCSS(PATHS.app)
+		)
 		break
 	default:
 		console.log("DEFAULT")
-		config = merge(common, parts.devServer({
-			host: process.env.HOST,
-			port: process.env.PORT
-		}))
+		config = merge(
+			common, 
+			parts.devServer({
+				host: process.env.HOST,
+				port: process.env.PORT
+			}),
+			parts.setupCSS(PATHS.app)
+		)
 }
 
 module.exports = validate(config)

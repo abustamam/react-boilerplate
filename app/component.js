@@ -1,5 +1,5 @@
 module.exports = function() {
 	const element = document.createElement('h1')
-	element.innerHTML = 'Hello World'
+	element.innerHTML = 'Hi World'
 	return element
 }

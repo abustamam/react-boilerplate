@@ -17,3 +17,22 @@ exports.devServer = function(options) {
 		]
 	}
 }
+
+exports.setupCSS = function(paths) {
+	return {
+		module: {
+			loaders: [
+				{
+			      test: /\.sass$/,
+			      loaders: ['style', 'css', 'sass'],
+			      include: paths
+			    },
+				{
+					test: /\.css$/,
+					loaders: ['style', 'css'],
+					include: paths
+				}
+			]
+		}
+	}
+}
