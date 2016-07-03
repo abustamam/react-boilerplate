@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const merge = require('webpack-merge')
 const validate = require('webpack-validator')
+const pkg = require('./package.json')
 
 const parts = require('./libs/parts')
 
@@ -37,6 +38,14 @@ switch(process.env.npm_lifecycle_event) {
 			{
 				devtool: 'source-map'
 			},
+			parts.setFreeVariable(
+				'process.env.NODE_ENV',
+				'production'
+			),
+			parts.extractBundle({
+				name: 'vendor',
+				entries: Object.keys(pkg.dependencies)
+			}),
 			parts.minify(),
 			parts.setupCSS(PATHS.app)
 		)
