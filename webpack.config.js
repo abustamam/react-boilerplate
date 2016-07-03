@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const merge = require('webpack-merge')
 const validate = require('webpack-validator')
+const stylelint = require('stylelint')
 const pkg = require('./package.json')
 
 const parts = require('./libs/parts')
@@ -33,10 +34,27 @@ const common = {
   module: {
     preLoaders: [
       {
+        test: /\.(c|sa)ss$/,
+        loaders: ['postcss'],
+        include: PATHS.app
+      },
+      {
         test: /\.jsx?$/,
         loaders: ['eslint'],
         include: PATHS.app
       }
+    ]
+  },
+  postcss: function() {
+    return [
+      stylelint({
+        plugins: [
+          'stylelint-scss'
+        ],
+        rules: {
+          'color-hex-case': 'lower'
+        }
+      })
     ]
   }
 }

@@ -17,11 +17,13 @@
   "parser": "babel-eslint",
   "rules": {
     "no-console": 0,
-    "semi": [2, "never"],
-    "indent": [2, 2],
-    "quotes": [2, "single"],
-    "strict": [2, "never"],
+    "semi": [1, "never"],
+    "indent": [1, 2],
+    "quotes": [1, "single"],
+    "strict": [1, "never"],
     "no-underscore-dangle": 1,
+    "smells/no-complex-switch-case": 1,
+    "smells/no-this-assign": 1,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2
