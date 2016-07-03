@@ -4,6 +4,7 @@
   "description": "Boilerplate for ReactJS project with hot code reloading",
   "scripts": {
     "start": "webpack-dev-server --port 8000",
+    "stats": "webpack --profile --json > stats.json",
     "lint": "eslint src",
     "build": "webpack",
     "deploy": "gh-pages -d build"

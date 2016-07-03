@@ -9,7 +9,7 @@ const parts = require('./libs/parts')
 
 const PATHS = {
 	app: path.join(__dirname, 'app'),
-	style: path.join(__dirname, 'app', 'main.sass'),
+	style: path.join(__dirname, 'app', 'stylesheets', 'main.sass'),
 	build: path.join(__dirname, 'build')
 }
 
@@ -34,6 +34,7 @@ let config
 
 switch(process.env.npm_lifecycle_event) {
 	case 'build': 
+	case 'stats':
 		console.log("BUILD")
 		config = merge(
 			common,
@@ -74,4 +75,6 @@ switch(process.env.npm_lifecycle_event) {
 		)
 }
 
-module.exports = validate(config)
+module.exports = validate(config, {
+	quiet: true
+})
