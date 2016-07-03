@@ -1,7 +1,7 @@
-const component = require('./component')
-// require('react')
+import 'react-hot-loader/patch'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
 import App from './components/app'
 
 // ReactDOM.render(<App />, document.getElementById('root'))

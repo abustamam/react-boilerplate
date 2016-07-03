@@ -1,5 +1,5 @@
 {
-	"plugins": ["remove-console"],
+	"plugins": ["remove-console", "react-hot-loader/babel"],
 	"presets": ["es2015", "stage-0", "react"],
 	"env": {
 		"start": {

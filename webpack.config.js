@@ -1,9 +1,6 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const merge = require('webpack-merge')
 const validate = require('webpack-validator')
-const stylelint = require('stylelint')
 const pkg = require('./package.json')
 
 const parts = require('./libs/parts')
@@ -19,62 +16,32 @@ const PATHS = {
   fonts: path.join(__dirname, 'public', 'assets', 'fonts')
 }
 
-const common = {
-  entry: {
-    style: PATHS.style,
-    app: PATHS.app
+const common = merge(
+  {
+    entry: {
+      style: PATHS.style,
+      app: PATHS.app
+    },
+    output: {
+      path: PATHS.build,
+      filename: '[name].js'
+    },
+    resolve: {
+      extensions: ['', '.js', '.jsx']
+    }
   },
-  output: {
-    path: PATHS.build,
-    filename: '[name].js'
-  },
-  plugins: [
-    new FaviconsWebpackPlugin('./public/assets/images/webpack.png'),
-    new HtmlWebpackPlugin({
-      title: 'Webpack Demo'
-    })
-  ],
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  module: {
-    preLoaders: [
-      {
-        test: /\.(c|sa)ss$/,
-        loaders: ['postcss'],
-        include: PATHS.app
-      },
-      {
-        test: /\.jsx?$/,
-        loaders: ['eslint'],
-        include: PATHS.app
-      }
-    ],
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel?cacheDirectory'],
-        include: PATHS.app
-      },
-      {
-        test: require.resolve('react'),
-        loader: 'expose?React'
-      }
-    ]
-  },
-  postcss: function () {
-    return [
-      stylelint({
-        plugins: [
-          'stylelint-scss'
-        ],
-        rules: {
-          'color-hex-case': 'lower'
-        }
-      })
-    ]
-  }
-}
+  parts.indexTemplate({
+    title: 'Webpack Demo',
+    appMountId: 'app',
+    faviconPath: PATHS.images,
+    favicon: 'webpack.png'
+  }),
+  parts.postCSS(PATHS.app),
+  parts.loadJSX(PATHS.app),
+  parts.lintJSX(PATHS.app),
+  parts.images(PATHS.images),
+  parts.fonts(PATHS.fonts)
+)
 
 let config
 let opts = {}
@@ -104,8 +71,6 @@ case 'build':
       entries: Object.keys(pkg.dependencies)
     }),
     parts.minify(),
-    parts.images(PATHS.images),
-    parts.fonts(PATHS.fonts),
     parts.extractCSS(PATHS.style),
     parts.purifyCSS([PATHS.app])
   )
@@ -117,13 +82,13 @@ default:
     {
       devtool: 'eval-source-map'
     },
+    parts.setupCSS(PATHS.style),
     parts.devServer({
       host: process.env.HOST,
       port: process.env.PORT
     }),
-    parts.images(PATHS.images),
-    parts.fonts(PATHS.fonts),
-    parts.setupCSS(PATHS.style)
+    parts.enableReactPerformanceTools(),
+    parts.npmInstall()
   )
 }
 

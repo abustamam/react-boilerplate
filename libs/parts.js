@@ -2,6 +2,69 @@ const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const PurifyCSSPlugin = require('purifycss-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const NpmInstallPlugin = require('npm-install-webpack-plugin')
+const stylelint = require('stylelint')
+const path = require('path')
+
+exports.indexTemplate = function (options) {
+  const favicon = path.join(options.faviconPath, options.favicon)
+  return {
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: require('html-webpack-template'),
+        title: options.title,
+        appMountId: options.appMountId,
+        inject: false
+      }),
+      new FaviconsWebpackPlugin(favicon)
+    ]
+  }
+}
+
+exports.loadJSX = function (include) {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          // Enable caching for extra performance
+          loaders: ['babel?cacheDirectory'],
+          include
+        }
+      ]
+    }
+  }
+}
+
+exports.lintJSX = function (include) {
+  return {
+    module: {
+      preLoaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['eslint'],
+          include
+        }
+      ]
+    }
+  }
+}
+
+
+exports.enableReactPerformanceTools = function () {
+  return {
+    module: {
+      loaders: [
+        {
+          test: require.resolve('react'),
+          loader: 'expose?React'
+        }
+      ]
+    }
+  }
+}
 
 exports.devServer = function (options) {
   return {
@@ -34,6 +97,32 @@ exports.setupCSS = function (paths) {
           test: /\.css$/,
           loaders: ['style', 'css'],
           include: paths
+        }
+      ]
+    }
+  }
+}
+
+exports.postCSS = function (include) {
+  return {
+    postcss: function () {
+      return [
+        stylelint({
+          plugins: [
+            'stylelint-scss'
+          ],
+          rules: {
+            'color-hex-case': 'lower'
+          }
+        })
+      ]
+    },
+    module: {
+      preLoaders: [
+        {
+          test: /\.(c|sa)ss$/,
+          loaders: ['postcss'],
+          include
         }
       ]
     }
@@ -156,5 +245,16 @@ exports.fonts = function (paths) {
         }
       ]
     }
+  }
+}
+
+
+exports.npmInstall = function (options = {}) {
+  options = options || {}
+
+  return {
+    plugins: [
+      new NpmInstallPlugin(options)
+    ]
   }
 }
