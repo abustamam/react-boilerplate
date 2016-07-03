@@ -1,81 +1,95 @@
 const path = require('path')
-const webpack = require('webpack')
 const merge = require('webpack-merge')
-const NpmInstallPlugin = require('npm-install-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const validate = require('webpack-validator')
+const pkg = require('./package.json')
 
-const TARGET = process.env.npm_lifecyle_event
+const parts = require('./libs/parts')
+
+const TARGET = process.env.npm_lifecycle_event
+process.env.BABEL_ENV = TARGET
+
 const PATHS = {
   app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
+  style: path.join(__dirname, 'app', 'stylesheets', 'main.sass'),
+  build: path.join(__dirname, 'build'),
+  images: path.join(__dirname, 'public', 'assets', 'images'),
+  fonts: path.join(__dirname, 'public', 'assets', 'fonts')
 }
 
-const common = {
-  devtool: 'eval',
-  entry: {
-    app: PATHS.app
-  },
-  output: {
-    path: PATHS.build,
-    filename: 'bundle.js',
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  module: {
-    loaders: [{
-      test: /\.js|\.jsx$/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src')
+const common = merge(
+  {
+    entry: {
+      style: PATHS.style,
+      app: PATHS.app
     },
-    {
-      test: /\.sass$/,
-      loader: "style!css!sass"
+    output: {
+      path: PATHS.build,
+      filename: '[name].js'
     },
-    {
-      test: /\.css$/,
-      loaders: "style!css"
-    }]
+    resolve: {
+      extensions: ['', '.js', '.jsx']
+    }
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Webpack demo'
-    }),
-    new FaviconsWebpackPlugin('../public/webpack.svg')
-  ]
-};
+  parts.indexTemplate({
+    title: 'Webpack Demo',
+    appMountId: 'app',
+    faviconPath: PATHS.images,
+    favicon: 'webpack.png'
+  }),
+  // parts.postCSS(PATHS.app),
+  parts.loadJSX(PATHS.app),
+  parts.lintJSX(PATHS.app),
+  parts.images(PATHS.images),
+  parts.fonts(PATHS.fonts)
+)
 
 let config
+let opts = {}
 
-switch(process.env.npm_lifecycle_event) {
-  case 'build':
-    config = merge(common, {
-
-    })
-    break
-  case 'start':
-    config = merge(common, {
-      devtool: 'eval-source-map',
-      devServer: {
-        contentBase: PATHS.build,
-        historyApiFallback: true,
-        hot: true,
-        inline: true,
-        progress: true,
-        stats: 'errors-only',
-        host: process.env.HOST,
-        port: process.env.PORT
-      },
-      plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new NpmInstallPlugin({save: true}),
-        new FaviconsWebpackPlugin('../public/webpack.svg')
-      ]
-    })
-    break
-  default:
-    config = merge(common, {})
+switch (TARGET) {
+case 'stats':
+  opts.quiet = true
+case 'build':
+  console.log('BUILD')
+  config = merge(
+    common,
+    {
+      devtool: 'source-map',
+      output: {
+        path: PATHS.build,
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[chunkhash].js'
+      }
+    },
+    parts.clean(PATHS.build),
+    parts.setFreeVariable(
+      'process.env.NODE_ENV',
+      'production'
+    ),
+    parts.extractBundle({
+      name: 'vendor',
+      entries: Object.keys(pkg.dependencies)
+    }),
+    parts.minify(),
+    parts.extractCSS(PATHS.style),
+    parts.purifyCSS([PATHS.app])
+  )
+  break
+default:
+  console.log('DEFAULT')
+  config = merge(
+    common,
+    {
+      devtool: 'eval-source-map'
+    },
+    parts.setupCSS(PATHS.style),
+    parts.devServer({
+      host: process.env.HOST,
+      port: process.env.PORT
+    }),
+    parts.enableReactPerformanceTools(),
+    parts.npmInstall()
+  )
 }
 
-module.exports = validate(config)
+module.exports = validate(config, opts)

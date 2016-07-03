@@ -1,4 +1,11 @@
 {
+  "extends": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
   "ecmaFeatures": {
     "jsx": true,
     "modules": true
@@ -9,13 +16,20 @@
   },
   "parser": "babel-eslint",
   "rules": {
-    "quotes": [2, "single"],
-    "strict": [2, "never"],
+    "no-console": 0,
+    "semi": [1, "never"],
+    "indent": [1, 2],
+    "quotes": [1, "single"],
+    "strict": [1, "never"],
+    "no-unused-vars": 1,
+    "no-underscore-dangle": 1,
+    "smells/no-this-assign": 1,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2
   },
   "plugins": [
-    "react"
+    "react",
+    "smells"
   ]
 }
