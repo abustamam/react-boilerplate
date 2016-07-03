@@ -10,7 +10,9 @@ const parts = require('./libs/parts')
 const PATHS = {
 	app: path.join(__dirname, 'app'),
 	style: path.join(__dirname, 'app', 'stylesheets', 'main.sass'),
-	build: path.join(__dirname, 'build')
+	build: path.join(__dirname, 'build'),
+	images: path.join(__dirname, 'public', 'assets', 'images'),
+	fonts: path.join(__dirname, 'public', 'assets', 'fonts')
 }
 
 const common = {
@@ -23,7 +25,7 @@ const common = {
 		filename: '[name].js'
 	}, 
 	plugins: [
-		new FaviconsWebpackPlugin('./public/webpack.png'),
+		new FaviconsWebpackPlugin('./public/assets/images/webpack.png'),
 		new HtmlWebpackPlugin({
 			title: 'Webpack Demo'
 		})
@@ -31,10 +33,12 @@ const common = {
 }
 
 let config
+let opts = {}
 
 switch(process.env.npm_lifecycle_event) {
-	case 'build': 
 	case 'stats':
+		opts.quiet = true
+	case 'build': 
 		console.log("BUILD")
 		config = merge(
 			common,
@@ -56,6 +60,8 @@ switch(process.env.npm_lifecycle_event) {
 				entries: Object.keys(pkg.dependencies)
 			}),
 			parts.minify(),
+			parts.images(PATHS.images),
+			parts.fonts(PATHS.fonts),
 			parts.extractCSS(PATHS.style),
 			parts.purifyCSS([PATHS.app])
 		)
@@ -71,10 +77,10 @@ switch(process.env.npm_lifecycle_event) {
 				host: process.env.HOST,
 				port: process.env.PORT
 			}),
+			parts.images(PATHS.images),
+			parts.fonts(PATHS.fonts),
 			parts.setupCSS(PATHS.style)
 		)
 }
 
-module.exports = validate(config, {
-	quiet: true
-})
+module.exports = validate(config, opts)

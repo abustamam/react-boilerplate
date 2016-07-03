@@ -121,3 +121,40 @@ exports.purifyCSS = function(paths) {
 		]
 	}
 }
+
+exports.images = function(paths) {
+	return {
+		module: {
+			loaders: [
+				{
+					test: /\.(jpg|png)$/,
+					loaders: [
+						'file?name=[path][name].[hash].[ext]',
+						'url?limit=25000',
+						'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+					],
+					include: paths
+				}
+			]
+		}
+	}
+}
+
+exports.fonts = function(paths) {
+	return {
+		module: {
+			loaders: [
+				{
+					test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+					loader: 'url',
+					query: {
+						limit: 50000,
+						mimetype: 'application/font-woff',
+						name: './fonts/[hash].[ext]'
+					},
+					include: paths
+				}
+			]
+		}
+	}
+}
