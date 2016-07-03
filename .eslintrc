@@ -1,4 +1,11 @@
 {
+  "extends": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
   "ecmaFeatures": {
     "jsx": true,
     "modules": true
@@ -9,8 +16,12 @@
   },
   "parser": "babel-eslint",
   "rules": {
+    "no-console": 0,
+    "semi": [2, "never"],
+    "indent": [2, 2],
     "quotes": [2, "single"],
     "strict": [2, "never"],
+    "no-underscore-dangle": 1,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2
