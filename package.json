@@ -74,7 +74,7 @@
     "redux": "^3.5.2"
   },
   "bugs": {
-    "url": "https://github.com/abustamam/react-hot-boilerplate/issues"
+    "url": "https://github.com/abustamam/react-boilerplate/issues"
   },
   "main": "index.js"
 }
