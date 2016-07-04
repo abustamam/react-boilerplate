@@ -1,8 +1,8 @@
 const path = require('path')
 const merge = require('webpack-merge')
 const validate = require('webpack-validator')
-const pkg = require('./package.json')
 
+const pkg = require('./package.json')
 const parts = require('./libs/parts')
 
 const TARGET = process.env.npm_lifecycle_event
@@ -31,7 +31,7 @@ const common = merge(
     }
   },
   parts.indexTemplate({
-    title: 'Webpack Demo',
+    title: 'React Boilerplate',
     appMountId: 'app',
     faviconPath: PATHS.images,
     favicon: 'webpack.png'
