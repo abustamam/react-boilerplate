@@ -53,6 +53,7 @@
     "purifycss-webpack-plugin": "^2.0.3",
     "react-addons-perf": "^15.2.0",
     "react-hot-loader": "^3.0.0-beta.2",
+    "redux-devtools": "^3.3.1",
     "sass": "^0.5.0",
     "sass-loader": "^3.2.3",
     "style-loader": "^0.13.1",
@@ -68,7 +69,9 @@
   "dependencies": {
     "lodash": "^4.13.1",
     "react": "^15.2.0",
-    "react-dom": "^15.2.0"
+    "react-dom": "^15.2.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2"
   },
   "bugs": {
     "url": "https://github.com/abustamam/react-hot-boilerplate/issues"
