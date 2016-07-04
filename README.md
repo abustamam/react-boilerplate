@@ -4,7 +4,6 @@ I created this boilerplate with instructions from the book [SurviveJS](http://su
 
 Then, I used the latest from Dan Abramov's [React Hot Boilerplate](https://github.com/gaearon/reacthotboilerplate).
 
-
 ## Features
 
 - Hot reloading
@@ -38,4 +37,11 @@ To deploy to github, fork your own, then run:
 npm run deploy
 ```
 
-Bug reports and improvements can go to me: [Rasheed Bustamam](rasheed.bustamam@gmail.com)
+## Related Projects
+I'm also working on a Redux boilerplate. It's functionally similar to this one, but with Redux and immutable.js
+
+https://github.com/abustamam/react-redux-boilerplate
+
+## Bugs
+
+Bug reports and improvements can go to me: [Rasheed Bustamam](mailto:rasheed.bustamam@gmail.com)
