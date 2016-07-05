@@ -4,13 +4,28 @@ import React from 'react'
 // import Icon from './icon'
 
 class Main extends React.Component {
+
   constructor (props) {
     super(props)
     this.displayName = 'Main'
+    this.interval = setInterval(::this.increment, 1000)
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.interval)
+  }
+
+  state = {
+    counter: 0
+  }
+
+  increment () {
+    this.setState({ counter: this.state.counter + 1 })
   }
 
   render () {
-    return <div className="main">Main</div>
+    const { counter } = this.state
+    return <div className="main">Counter: {counter}</div>
   }
 }
 
