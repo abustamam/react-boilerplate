@@ -6,7 +6,6 @@ Then, I used the latest from Dan Abramov's [React Hot Boilerplate](https://githu
 
 ## Features
 
-- Hot reloading
 - Github pages deployment
 - Sass
 
@@ -45,3 +44,8 @@ https://github.com/abustamam/react-redux-boilerplate
 ## Bugs
 
 Bug reports and improvements can go to me: [Rasheed Bustamam](mailto:rasheed.bustamam@gmail.com)
+
+## TODO:
+
+- Add hot reloading
+- Figure out how React Hot Loader 3 works
